@@ -34,13 +34,15 @@ sap.ui.define([
 			sap.m.MessageToast.show("Tile clicked");
 
 		},
+		onEmpPress: function (eve) {
+			sap.m.MessageToast.show("Tile clicked");
+
+		},
 		onCostPress: function (eve) {
 			sap.m.MessageToast.show("Tile clicked");
 
 		},
 		onNoSalePress: function (oEvent) {
-				var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", true);
 			this.oRouter.navTo("InvNoSale", {
 				layout: fioriLibrary.LayoutType.EndColumnFullScreen,
 				user: this._user
@@ -81,14 +83,12 @@ sap.ui.define([
 		},
 
 		_onProductMatched: function (oEvent) {
-			var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", false);
 			if (!this._user && oEvent) {
 				this._user = oEvent.getParameter("arguments").user;
-				oModel.setProperty("/LoginUserId", this._user);
 			}
+			var oModel = this.getOwnerComponent().getModel("MainModel");
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/userTable/${this._user}`,
+				url: `https://demo-rudrani.glitch.me/userTable/${this._user}`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -108,7 +108,7 @@ sap.ui.define([
 			});
 			var filterCriteria = "DELIMITED=false"
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/grid?filterCriteria=${encodeURIComponent(filterCriteria)}`,
+				url: `https://demo-rudrani.glitch.me/grid?filterCriteria=${encodeURIComponent(filterCriteria)}`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -127,7 +127,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/duesTable/0`,
+				url: `https://demo-rudrani.glitch.me/duesTable/0`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -151,7 +151,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/inventory`,
+				url: `https://demo-rudrani.glitch.me/inventory`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -178,7 +178,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/ExpenseType`,
+				url: `https://demo-rudrani.glitch.me/ExpenseType`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -198,7 +198,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/employee`,
+				url: `https://demo-rudrani.glitch.me/employee`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -224,7 +224,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/orderTable`,
+				url: `https://demo-rudrani.glitch.me/orderTable`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -248,7 +248,7 @@ sap.ui.define([
 			var oDate = new Date(Date.now() - 15 * 24 * 60 * 60 * 1000);
 			var sDate = oDate.toISOString().split('T')[0];
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/UnorderedItems/${sDate}`,
+				url: `https://demo-rudrani.glitch.me/UnorderedItems/${sDate}`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -317,7 +317,7 @@ sap.ui.define([
 			};
 			var that = this;
 			$.ajax({
-				url: "https://skybfr-office-inventory.glitch.me/order",
+				url: "https://demo-rudrani.glitch.me/order",
 				type: "POST", // Change the request type to POST for creating new data
 				contentType: "application/json",
 				data: JSON.stringify(oNewOrderData),
@@ -345,17 +345,13 @@ sap.ui.define([
 		},
 
 		onEmpPress: function (oEvent) {
-				var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", true);
-			this.oRouter.navTo("EmployeeDues", {
+			this.oRouter.navTo("EmployeeTile", {
 				layout: fioriLibrary.LayoutType.EndColumnFullScreen,
 				user: this._user
 			});
 		},
 
 		onOrderTilePress: function (oEvent) {
-				var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", true);
 			this.oRouter.navTo("Order", {
 				layout: fioriLibrary.LayoutType.EndColumnFullScreen,
 				user: this._user
@@ -363,9 +359,7 @@ sap.ui.define([
 		},
 
 		onEmpTilePress: function (oEvent) {
-				var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", true);
-			this.oRouter.navTo("Employees", {
+			this.oRouter.navTo("EmployeesName", {
 				layout: fioriLibrary.LayoutType.EndColumnFullScreen,
 				user: this._user
 			});
@@ -374,9 +368,8 @@ sap.ui.define([
 		onListItemPress: function (oEvent) {
 			// var productPath = oEvent.getSource().getBindingContext("products").getPath(),
 			// 	product = productPath.split("/").slice(-1).pop();
-        	var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", true);
-			this.oRouter.navTo("Inventory", {
+
+			this.oRouter.navTo("detail", {
 				layout: fioriLibrary.LayoutType.EndColumnFullScreen,
 				user: this._user
 			});

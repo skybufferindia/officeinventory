@@ -8,7 +8,7 @@
 		},
 		"dataSources": {
 			"Office_Inventory_Glitch": {
-				"uri": "https://skybfr-office-inventory.glitch.me/",
+				"uri": "https://demo-rudrani.glitch.me/",
 				"type": "OData",
 				"settings": {
 					"localUri": "localService/metadata.xml"
@@ -63,21 +63,21 @@
 					]
 				},
 				{
-					"pattern": "Inventory/{user}/{layout}",
-					"name": "Inventory",
+					"pattern": "detail/{user}/{layout}",
+					"name": "detail",
 					"target": [
 						"login",
 						"master",
-						"Inventory"
+						"detail"
 					]
 				},
 				{
-					"pattern": "EmployeeDues/{user}/{layout}",
-					"name": "EmployeeDues",
+					"pattern": "EmployeeTile/{user}/{layout}",
+					"name": "EmployeeTile",
 					"target": [
 						"login",
 						"master",
-						"EmployeeDues"
+						"EmployeeTile"
 					]
 				},
 				{
@@ -99,12 +99,12 @@
 					]
 				},
 					{
-					"pattern": "Employees/{user}/{layout}",
-					"name": "Employees",
+					"pattern": "EmployeesName/{user}/{layout}",
+					"name": "EmployeesName",
 					"target": [
 						"login",
 						"master",
-						"Employees"
+						"EmployeesName"
 					]
 				}
 				
@@ -118,12 +118,12 @@
 					"name": "Master",
 					"controlAggregation": "midColumnPages"
 				},
-				"Inventory": {
-					"name": "Inventory",
+				"detail": {
+					"name": "Detail",
 					"controlAggregation": "endColumnPages"
 				},
-				"EmployeeDues": {
-					"name": "EmployeeDues",
+				"EmployeeTile": {
+					"name": "EmployeeTile",
 					"controlAggregation": "endColumnPages"
 				},
 				"Order": {
@@ -134,8 +134,8 @@
 					"name": "InvNoSale",
 					"controlAggregation": "endColumnPages"
 				},
-					"Employees": {
-					"name": "Employees",
+					"EmployeesName": {
+					"name": "EmployeesName",
 					"controlAggregation": "endColumnPages"
 				}
 			}

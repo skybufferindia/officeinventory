@@ -21,7 +21,6 @@ sap.ui.define([
 			var oModel = new JSONModel();
 			this.setModel(oModel);
 				var oModel2 = new JSONModel({
-			    busy: false,
 				username: "",
 				password: "",
 				bEditMode: false,
@@ -29,11 +28,11 @@ sap.ui.define([
 				bShowInventoryDelimited: false,
                 bDueCleared: false,
                 bShowDelimitedClearedDue: false,
-                bShowClearedDues: false,
-                LoginUserId: ""
+                bShowClearedDues: false
 			});
 			oModel2.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
 			this.setModel(oModel2, "MainModel");
+			
 			var newModel1 = new JSONModel({
 				visibleHeader: true,
 				"editable": false,

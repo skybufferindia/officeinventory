@@ -2,7 +2,7 @@
 	<ResponsivePopover id="PopOver1" class="sapUiContentPadding" contentWidth="30rem" contentHeight="15rem" showHeader="false"
 		placement="HorizontalPreferredLeft" titleAlignment="Center">
 		<content>
-			<Table id="OrderInventorys" sticky="ColumnHeaders" items="{MainModel>/OrderItems}">
+			<Table id="OrderDetails" sticky="ColumnHeaders" items="{MainModel>/OrderItems}">
 				<columns>
 					<Column>
 						<Text text="Order ID"/>

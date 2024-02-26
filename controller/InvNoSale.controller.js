@@ -17,13 +17,12 @@ var EdmType = exportLibrary.EdmType;
 
 			this.oRouter = oOwnerComponent.getRouter();
 			this.oModel = oOwnerComponent.getModel();
-			this.oRouter.getRoute("EmployeeDues").attachPatternMatched(this._onProductMatched, this);
+			this.oRouter.getRoute("EmployeeTile").attachPatternMatched(this._onProductMatched, this);
 		},
 		_onProductMatched: function (oEvent) {
 			var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", false);
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/userTable/${this._user}`,
+				url: `https://demo-rudrani.glitch.me/userTable/${this._user}`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -43,7 +42,7 @@ var EdmType = exportLibrary.EdmType;
 			});
 			
 				jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/duesTable`,
+				url: `https://demo-rudrani.glitch.me/duesTable`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -151,8 +150,6 @@ var EdmType = exportLibrary.EdmType;
 		},
 		
 			onNavPress1: function () {
-					var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", true);
 			var oHistory = History.getInstance();
 			var sPreviousHash = oHistory.getPreviousHash();
 
@@ -160,10 +157,7 @@ var EdmType = exportLibrary.EdmType;
 				window.history.go(-1);
 			} else {
 				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-				oRouter.navTo("master", {
-				layout: fioriLibrary.LayoutType.MidColumnFullScreen,
-				user: oModel.getProperty("/LoginUserId") ? oModel.getProperty("/LoginUserId") : "t.bera"
-			});
+				oRouter.navTo("Routemaster", true);
 			}
 		}
 	});

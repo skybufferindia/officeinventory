@@ -101,8 +101,8 @@ sap.ui.define([
 					}),
 					new CheckBox({
 						text: "{= ${MainModel>Credit} > 0 ? 'On Credit' : 'Payment Done' }",
-						// icon: "{= ${MainModel>Credit} > 0 ? 'sap-icon://alert' : 'sap-icon://sys-enter-2' }",
-						valueState: "{= ${MainModel>Credit} > 0 ? 'Warning' : 'Success' }"
+						icon: "{= ${MainModel>Credit} > 0 ? 'sap-icon://alert' : 'sap-icon://sys-enter-2' }",
+						state: "{= ${MainModel>Credit} > 0 ? 'Warning' : 'Success' }"
 					})
 				]
 			});
@@ -115,7 +115,7 @@ sap.ui.define([
 			var oContext = oEvent.getSource().getBindingContext("MainModel");
 			var oOrderId = oButton.getParent().getBindingContext("MainModel").getObject("Order_ID");
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/OrderItems/${oOrderId}`,
+				url: `https://demo-rudrani.glitch.me/OrderItems/${oOrderId}`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -165,7 +165,7 @@ sap.ui.define([
 		updateTableData: function (oData) {
 			var that = this
 			$.ajax({
-				url: "https://skybfr-office-inventory.glitch.me/orderTable",
+				url: "https://demo-rudrani.glitch.me/orderTable",
 				type: "PUT",
 				contentType: "application/json",
 				data: JSON.stringify(oData),
@@ -206,9 +206,8 @@ sap.ui.define([
 
 		_onProductMatched: function (oEvent) {
 			var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", false);
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/orderTable`,
+				url: `https://demo-rudrani.glitch.me/orderTable`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -230,7 +229,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/ExpenseType`,
+				url: `https://demo-rudrani.glitch.me/ExpenseType`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -250,7 +249,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/employee`,
+				url: `https://demo-rudrani.glitch.me/employee`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -271,7 +270,7 @@ sap.ui.define([
 				}
 			});
 			jQuery.ajax({
-				url: `https://skybfr-office-inventory.glitch.me/inventory`,
+				url: `https://demo-rudrani.glitch.me/inventory`,
 				type: "GET",
 				dataType: "json",
 				success: function (data) {
@@ -478,21 +477,19 @@ sap.ui.define([
 		},
 
 		onNavPress1: function () {
-			var oModel = this.getOwnerComponent().getModel("MainModel");
-			oModel.setProperty("/busy", true);
-				var oHistory = History.getInstance();
-                var sPreviousHash = oHistory.getPreviousHash();
-				sPreviousHash = undefined;
-                if (sPreviousHash !== undefined) {
-                    window.history.go(-1);
-                }
-                else {
-                    var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-                    	oRouter.navTo("master", {
-				layout: fioriLibrary.LayoutType.MidColumnFullScreen,
-				user: oModel.getProperty("/LoginUserId") ? oModel.getProperty("/LoginUserId") : "t.bera"
-			});
-                }
+			var oHistory = History.getInstance();
+			var sPreviousHash = oHistory.getPreviousHash();
+			console.log("Previous hash:", sPreviousHash);
+
+			// Retrieve previous hash from local storage
+			var storedPreviousHash = localStorage.getItem("previousHash");
+
+			if (storedPreviousHash !== undefined && storedPreviousHash !== null && storedPreviousHash !== "") {
+				window.history.go(-1);
+			} else {
+				var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+				oRouter.navTo("Routemaster", true);
+			}
 		},
 	});
 });

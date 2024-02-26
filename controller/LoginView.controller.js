@@ -25,7 +25,7 @@ sap.ui.define([
 			// Perform backend login request using AJAX
 			jQuery.ajax({
 				type: "POST",
-				url: "https://skybfr-office-inventory.glitch.me/userTable",
+				url: "https://demo-rudrani.glitch.me/userTable",
 				contentType: "application/json",
 				data: JSON.stringify({
 					"User": username,

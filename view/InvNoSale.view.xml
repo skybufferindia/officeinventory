@@ -1,11 +1,11 @@
-<mvc:View controllerName="sbin.oi.controller.Inventory" xmlns:form="sap.ui.layout.form" xmlns="sap.m" xmlns:f="sap.f"
+<mvc:View controllerName="sbin.oi.controller.InvNoSale" xmlns:form="sap.ui.layout.form" xmlns="sap.m" xmlns:f="sap.f"
 	xmlns:mvc="sap.ui.core.mvc" xmlns:fb="sap.ui.comp.filterbar" xmlns:viz.data="sap.viz.ui5.data" xmlns:l="sap.ui.layout"
 	xmlns:core="sap.ui.core" xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" xmlns:card="sap.f.cards" xmlns:grid="sap.ui.layout.cssgrid">
-	<f:DynamicPage id="DynamicPge" showFooter="{MainModel>/bEditMode}">
+	<f:DynamicPage id="DynamicPge2">
 		<f:title>
 			<f:DynamicPageTitle>
 				<f:heading>
-					<Title text="Inventory with No Sale"/>
+					<Title text="Inventory with No sale"/>
 				</f:heading>
 				<f:navigationActions>
 					<Button icon="sap-icon://nav-back" type="Transparent" press="onNavPress1" visible="true"/>
@@ -15,23 +15,13 @@
 		<f:header>
 			<f:DynamicPageHeader>
 				<f:content>
-					<fb:FilterBar id="Inv_filterbar" useToolbar="false" showGoButton="false" search=".onSearch">
+					<fb:FilterBar id="Emp_filterbar" useToolbar="false" showGoButton="false" search=".onSearch">
 						<fb:filterGroupItems>
-							<!--<fb:FilterGroupItem groupName="A" name="Period" label="Period" visibleInFilterBar="true">-->
-							<!--        <fb:control>-->
-							<!--            <DatePicker id="Inv_Date_Picker" displayFormat="MM-y"  value="{oModel>/selectedMonth}" valueFormat="YYYYMM" change="onDateChange" />-->
-							<!--        </fb:control>-->
-							<!--    </fb:FilterGroupItem>-->
-							<fb:FilterGroupItem groupName="A" name="item" label="Items" visibleInFilterBar="true">
+							<fb:FilterGroupItem groupName="A" name="Name" label="Items" visibleInFilterBar="true">
 								<fb:control>
-									<MultiComboBox items="{MainModel>/InventorySet}" selectionChange="onFilterItems" name="item" id="FilterMCB" placeholder="Select items">
-										<core:Item key="{MainModel>ID}" text="{MainModel>Items}"/>
+									<MultiComboBox items="{MainModel>/EmpDueSet}" name="Name" id="FilterMCB" selectionChange="onFilterItems" placeholder="Select Name">
+										<core:Item key="{MainModel>DuesId}" text="{MainModel>EmpName}"/>
 									</MultiComboBox>
-								</fb:control>
-							</fb:FilterGroupItem>
-							<fb:FilterGroupItem groupName="A" name="delimited" label="Show Delimited" visibleInFilterBar="true">
-								<fb:control>
-									<Switch state="{MainModel>/bShowInventoryDelimited}" customTextOn="Yes" customTextOff="No" change="onDelimitedChange"/>
 								</fb:control>
 							</fb:FilterGroupItem>
 						</fb:filterGroupItems>
@@ -41,67 +31,35 @@
 		</f:header>
 		<f:content>
 			<VBox>
-				<Table id="Inventory_Table" mode="MultiSelect" visible="true" growing="true" growingScrollToLoad="true" growingThreshold="100"
-					items="{MainModel>/InventorySet}">
+				<Table id="Emp_Due_Table" visible="true" growing="true" growingScrollToLoad="true" growingThreshold="100" items="{MainModel>/EmpDueSet}">
 					<headerToolbar>
 						<Toolbar>
-							<Title text="Inventory Units (Qty: {MainModel>/GridSet/TotalQty}, Val: ₹{MainModel>/GridSet/TotalPrice})"/>
+							<!-- <Title text="Plant Inventory" /> -->
 							<ToolbarSpacer/>
-							<Button press="onAdd" icon="sap-icon://add-product" visible="true" tooltip="Add Item"/>
-							<Button icon="sap-icon://write-new" press="onEdit" visible="{= !${MainModel>/bEditMode}}" tooltip="Edit"/>
-							<!--<Button text="Update" press="onUpdate" />-->
-							<!--<Button icon="sap-icon://negative" press="onDelete" visible="{= !!${MainModel>/bEditMode}}" tooltip="Delimit item"/>-->
-							<Button press="onExcelPress" icon="sap-icon://excel-attachment" tooltip="Excel Download"/>
+							<Button press="onExcelPress" icon="sap-icon://excel-attachment"/>
 						</Toolbar>
 					</headerToolbar>
 					<columns>
 						<Column minScreenWidth="" demandPopin="false">
-							<Text text="Items"/>
+							<Text text="Items(with no sell)"/>
 						</Column>
 						<Column minScreenWidth="Tablet" demandPopin="true">
-							<Text text="Price (₹)"/>
-						</Column>
-						<Column minScreenWidth="Phone" demandPopin="true">
 							<Text text="Quantity"/>
-						</Column >
-						<Column minScreenWidth="Phone" demandPopin="true">
-							<Text text="Safety Stock (Qty)"/>
-						</Column >
-						<Column minScreenWidth="Phone" demandPopin="true">
-							<Text text="Total Value (₹)"/>
-						</Column >
-						<!--<Column minScreenWidth="Phone" demandPopin="true">-->
-						<!--	<Text text="Delimited"/>-->
-						<!--</Column >-->
-						<!--<Column minScreenWidth="Phone" demandPopin="true" visible="{= ${MainModel>/bShowInventoryDelimited}}">-->
-						<!--	<Text text="Delimited" visible="{= ${MainModel/bShowInventoryDelimited}}"/>-->
-						<!--</Column >-->
-						<Column minScreenWidth="Phone" demandPopin="true" visible="{= ${MainModel>/bEditMode} || ${MainModel>/bShowInventoryDelimited}}">
-							<Text text="Delimited?" visible="{= ${MainModel>/bEditMode} || ${MainModel>/bShowInventoryDelimited}}"/>
-						</Column >
+						</Column>
+						<Column minScreenWidth="Tablet" demandPopin="true">
+							<Text text="Amount(₹)"/>
+						</Column>
 					</columns>
 					<items>
 						<ColumnListItem>
-							<Text text="{MainModel>Items}"/>
-							<Text text="{MainModel>Price}"/>
-							<Text text="{MainModel>Qty}"/>
-							<Text text="{MainModel>Reorder_Qty}"/>
-							<Text text="{= ${MainModel>Qty} * ${MainModel>Price}}"/>
-							<ObjectStatus text= "{= ${MainModel>/DELIMITED} ? 'Delimited' : 'Available'}" icon="{= ${MainModel>/DELIMITED} ? 'sap-icon://error' : 'sap-icon://information'}" state= "{= ${MainModel>/DELIMITED} ? 'Error' : 'Information'}"/>
-							<Text text="{MainModel>Order}"/>
-							<CheckBox text="" visible="{= !!${MainModel>/bEditMode}}" valueState="{= ${MainModel>DELIMITED} ? 'Error' : 'Information' }"
-								selected="{MainModel>DELIMITED}"/>
+							<Text text="{MainModel>}"/>
+							<Text text="{MainModel>}"/>
+							<Text text="{MainModel>}"/>
+							<!--<Text text="{path:'cost',formatter: '.formatcost'}" />-->
 						</ColumnListItem>
 					</items>
 				</Table>
 			</VBox>
 		</f:content>
-		<f:footer>
-			<OverflowToolbar >
-				<ToolbarSpacer/>
-				<Button id="saveButton" text="Save" enabled="{MainModel>/enableInventorySave}" type="Accept" press="onSave"/>
-				<Button id="cancelButton" text="Cancel" type="Reject" press="onCancel"/>
-			</OverflowToolbar>
-		</f:footer>
 	</f:DynamicPage>
 </mvc:View>
